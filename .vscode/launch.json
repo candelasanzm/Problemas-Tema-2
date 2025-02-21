@@ -5,8 +5,7 @@
             "name": "Run Application (Debug)",
             "type": "debugpy",
             "request": "launch",
-            "program": "main.py",
-            "args": ["${command:pickArgs}"]
+            "program": "ejercicio 4.py"
         },
         {
             "name": "Run All Tests (Debug)",
