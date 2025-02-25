@@ -7,30 +7,32 @@ def ordena_reservas(reservas : list[tuple[int, int]]) -> list[tuple[int, int]] :
     return sorted(reservas, key = inicio)
 
 def buscar_pista_libre(reservas : list[tuple[int, int]]) -> list[tuple[int, int]]:
-    """ Busca una pista libre, ordenando por hora de inicio las reservas """
+    """ Busca cuantas pistas necesito, ordenando por hora de inicio las reservas """
+    
+    # ordeno las reservas por hora de inicio 
     reservas_ordenadas = ordena_reservas(reservas)
+    
+    # inicializo una lista donde ire agregando las horas de finalizacion
     pistas = []
 
     for reserva in reservas_ordenadas:
-        asignado = False
+        inicio, fin = reserva # separo los valores de la tupla
 
-        for pista in pistas:
-            if pista[-1][1] <= reserva[0]: # si la ultima reserva no coincide con la nueva reserva
-                pista.append(reserva)
-                asignado = True
+        # busco una pista que quede libre antes de que empiece una nueva reserva
+        pista_asignada = False
+
+        for i in range (len(pistas)):
+            if pistas[i] <= inicio: # si la ultima reserva no coincide con la nueva reserva
+                pistas[i] = fin # actualizar la hora de finalizacion de la pista que queda libre con la nueva reserva
+                pista_asignada = True
                 break
 
-        if asignado == False:
-            pistas.append(reserva) # crear nueva pista
+        if pista_asignada == False:
+            pistas.append(fin) # crear nueva pista
 
-    return pistas
-
-def calcular_pistas_necesarias(reservas : list[tuple[int, int]]) -> int :
-    pistas_libres = buscar_pista_libre(reservas)
-    return len(pistas_libres)
+    return len(pistas)
 
 
-res = [(10, 12), (9, 11), (11, 13), (13, 15)]
+res = [(10, 12), (9, 11), (11, 13)]
 print(ordena_reservas(res))
 print(buscar_pista_libre(res))
-print(calcular_pistas_necesarias(res))
